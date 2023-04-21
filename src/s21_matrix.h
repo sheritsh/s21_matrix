@@ -2,6 +2,9 @@
 #ifndef S21_MATRIX_H
 #define S21_MATRIX_H
 
+#include <stdio.h>
+#include <stdlib.h>
+
 #define SUCCESS 1
 #define FAILURE 0
 
@@ -10,6 +13,8 @@ typedef struct matrix_struct {
   int rows;
   int columns;
 } matrix_t;
+
+enum ERROR_CODES { OK, INCORRECT_MATRIX, CALCULATION_ERROR };
 
 /**
  * @brief Creates a matrix and physically allocates space for it in memory (on
