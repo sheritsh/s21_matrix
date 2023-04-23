@@ -2,8 +2,12 @@
 #ifndef S21_MATRIX_H
 #define S21_MATRIX_H
 
+#include <math.h>
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "modules/s21_helper_functions.h"
 
 #define SUCCESS 1
 #define FAILURE 0
@@ -49,7 +53,8 @@ int s21_eq_matrix(matrix_t *A, matrix_t *B);
 /**
  * @brief The sum of two matrices A = m × n and B = m × n of the same size is a
  * matrix C = m × n = A + B of the same size whose elements are defined by the
- * equations C(i,j) = A(i,j) + B(i,j)
+ * equations C(i,j) = A(i,j) + B(i,j). The comparison must be up to and
+ * including 7 decimal places
  * @param A pointer to the first matrix
  * @param B pointer to the second matrix
  * @param result pointer to the resulting matrix

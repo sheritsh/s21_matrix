@@ -18,7 +18,8 @@ int main(void) {
   initialize_matrix(A);
   print_matrix(A);
   printf("-----------------\n");
-  printf("[%.f]", A[1][1]);
+  printf("[%.f]\n", A[1][1]);
+  printf("%.10f\n", 1e-7);
   free(A);
   A = NULL;
   return 0;
