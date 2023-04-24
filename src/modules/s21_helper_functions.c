@@ -39,3 +39,14 @@ int is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
 
   return dimensions_comp_status;
 }
+
+double mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
+  double res = 0;
+
+  // Burroughs reference
+  for (int k = 0; k < B->rows; k++) {
+    res += A->matrix[i][k] * B->matrix[k][j];
+  }
+
+  return res;
+}

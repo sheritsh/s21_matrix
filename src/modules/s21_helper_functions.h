@@ -13,7 +13,7 @@
  * 0 - all matrices have been successfully checked
  * 1 - an error occurred
  */
-int validate_matrix(int matrix_amount, matrix_t* A, ...);
+int s21_validate_matrix(int matrix_amount, matrix_t* A, ...);
 
 /**
  * @brief The function checks if all passed matrices have the same dimensions
@@ -24,6 +24,16 @@ int validate_matrix(int matrix_amount, matrix_t* A, ...);
  * 0 - matrices do not match in size
  * 1 - all matrices are identical in size
  */
-int is_matrix_same_size(int matrix_amount, matrix_t* A, ...);
+int s21_is_matrix_same_size(int matrix_amount, matrix_t* A, ...);
+
+/**
+ * @brief Counting the multiplication of two matrices via formula
+ * @param i shift by i elements
+ * @param j shift by j elements
+ * @param A pointer to the first matrix
+ * @param B pointer to the second matrix
+ * @return result in double
+ */
+double s21_mult_matrix_res(int i, int j, matrix_t* A, matrix_t* B);
 
 #endif  // S21_HELPER_FUNCTIONS
