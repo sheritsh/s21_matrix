@@ -1,7 +1,7 @@
 #include "../s21_matrix.h"
 
 int s21_transpose(matrix_t *A, matrix_t *result) {
-  if (A == NULL || A->matrix == NULL) {
+  if (A == NULL || A->matrix == NULL || result == NULL) {
     return INCORRECT_MATRIX;
   }
 

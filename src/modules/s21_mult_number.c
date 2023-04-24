@@ -1,7 +1,7 @@
 #include "../s21_matrix.h"
 
 int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
-  if (A == NULL || A->matrix == NULL) {
+  if (A == NULL || A->matrix == NULL || result == NULL) {
     return INCORRECT_MATRIX;
   }
 
