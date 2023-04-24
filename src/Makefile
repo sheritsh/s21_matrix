@@ -3,7 +3,7 @@ CC = gcc
 CFLAGS = -Wall -Werror -Wextra -std=c11
 OS = $(shell uname)
 MODULES = $(wildcard modules/*.c)
-OBJECTS = $(wildcard objects/*.o)
+OBJECTS = $(patsubst %.c, %.o, $(MODULES))
 
 ifeq ($(OS), Linux)
 	LDLIBS = -lcheck_pic -pthread -lrt -lm -lsubunit
@@ -18,36 +18,46 @@ build: $(TARGET)
 rebuild: clean $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	ar rcs $(TARGET) $(OBJECTS)
+	ar rcs $(TARGET) $(wildcard objects/*.o)
 
-$(OBJECTS): $(MODULES)
-	$(CC) -c (CFLAGS) $(MODULES) $(LDLIBS)
+%.o: %.c
+	mkdir -p objects
+	$(CC) -c $(CFLAGS) $< $(LDLIBS) -o $(patsubst modules%, objects%, $@)
 
-test:
+test: $(TARGET)
+	$(CC) $(CFLAGS) $(wildcard tests/*.c) $(LDLIBS) -L. $(TARGET) -o testing_exe
+	./testing_exe
 
 gcov_report:
 
 style_check:
+	@echo "┏=========================================┓"
+	@echo "┃  Checking your code for Google Style    ┃"
+	@echo "┗=========================================┛"
 	cp ../materials/linters/.clang-format ./modules
-	clang-format -n *.c
-	rm ./modules/clang-format
-	cp ../materials/linters/.clang-format .
+	cd modules && clang-format -n *.c && cd ..
+	rm ./modules/.clang-format
+	cp ../materials/linters/.clang-format ./
 	clang-format -n *.h
 	rm ./.clang-format
 
-
 format_style:
+	@echo "┏=========================================┓"
+	@echo "┃  Formatting your code for Google Style  ┃"
+	@echo "┗=========================================┛"
 	cp ../materials/linters/.clang-format ./modules
-	clang-format -i *.c
-	rm ./modules/clang-format
-	cp ../materials/linters/.clang-format .
+	cd modules && clang-format -i *.c && cd ..
+	rm ./modules/.clang-format
+	cp ../materials/linters/.clang-format ./
 	clang-format -i *.h
 	rm ./.clang-format
 
 
-# valgrind_check: $(TARGET)
+valgrind_check: $(TARGET)
+	CK_FORK=no valgrind --vgdb=no --leak-check=full\
+--show-leak-kinds=all --track-origins=yes -v --verbose -q --quiet -s ./testing_exe
 
 clean:
-	rm -rf objects
+	rm -rf objects *.a testing_exe
 
 .PHONY: all build rebuild clean test gcov_report style_check valgrind_check

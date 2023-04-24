@@ -5,5 +5,11 @@
 #include <check.h>
 
 #include "../s21_matrix.h"
+Suite* s21_matrix_inv(void);
+typedef enum errors {
+  INVALID = 1,
+  CALC_ERR = 2,
+  Matrix_NULL = 2,
+} Err;
 
 #endif  // UNIT_TESTS_H
