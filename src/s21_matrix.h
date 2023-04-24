@@ -7,8 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "modules/s21_helper_functions.h"
-
 #define SUCCESS 1
 #define FAILURE 0
 
@@ -19,6 +17,8 @@ typedef struct matrix_struct {
 } matrix_t;
 
 enum ERROR_CODES { OK, INCORRECT_MATRIX, CALCULATION_ERROR };
+
+#include "modules/s21_helper_functions.h"
 
 /**
  * @brief Creates a matrix and physically allocates space for it in memory (on

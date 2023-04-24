@@ -23,9 +23,9 @@ $(TARGET): $(OBJECTS)
 $(OBJECTS): $(MODULES)
 	$(CC) -c (CFLAGS) $(MODULES) $(LDLIBS)
 
-# test:
+test:
 
-# gcov_report:
+gcov_report:
 
 style_check:
 	cp ../materials/linters/.clang-format ./modules

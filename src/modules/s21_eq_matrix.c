@@ -1,7 +1,7 @@
 #include "../s21_matrix.h"
 
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
-  if (!is_matrix_same_size(2, A, B) || validate_matrix(2, A, B)) {
+  if (!s21_is_matrix_same_size(2, A, B) || s21_validate_matrix(2, A, B)) {
     return FAILURE;
   }
 

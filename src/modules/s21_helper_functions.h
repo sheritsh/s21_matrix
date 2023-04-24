@@ -27,7 +27,8 @@ int s21_validate_matrix(int matrix_amount, matrix_t* A, ...);
 int s21_is_matrix_same_size(int matrix_amount, matrix_t* A, ...);
 
 /**
- * @brief Counting the multiplication of two matrices via formula
+ * @brief Counting the multiplication of two matrices via formula. Be careful,
+ * this function does not check pointers to matrices.
  * @param i shift by i elements
  * @param j shift by j elements
  * @param A pointer to the first matrix
@@ -35,5 +36,22 @@ int s21_is_matrix_same_size(int matrix_amount, matrix_t* A, ...);
  * @return result in double
  */
 double s21_mult_matrix_res(int i, int j, matrix_t* A, matrix_t* B);
+
+/**
+ * @brief Creates a minor matrix for the A[i][j] element. Be careful with this
+ * function. Can return NULL!
+ * @param excluded_row excluded row number
+ * @param excluded_column excluded column number
+ * @param A pointer to the initial matrix
+ * @return Pointer to the resulting minor matrix
+ */
+matrix_t* s21_create_minor(int excluded_row, int excluded_column, matrix_t* A);
+
+/**
+ * @brief The function checks the matrix for squareness
+ * @param A pointer to the input matrix
+ * @return 1 - SUCCESS; 0 - ERROR
+ */
+int s21_is_matrix_square(matrix_t* A);
 
 #endif  // S21_HELPER_FUNCTIONS

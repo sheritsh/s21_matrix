@@ -1,6 +1,6 @@
 #include "s21_helper_functions.h"
 
-int validate_matrix(int matrix_amount, matrix_t *A, ...) {
+int s21_validate_matrix(int matrix_amount, matrix_t *A, ...) {
   int matrices_status = OK;
 
   va_list matrix_list;
@@ -16,7 +16,7 @@ int validate_matrix(int matrix_amount, matrix_t *A, ...) {
   return matrices_status;
 }
 
-int is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
+int s21_is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
   if (A == NULL) {
     return FAILURE;
   }
@@ -40,7 +40,7 @@ int is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
   return dimensions_comp_status;
 }
 
-double mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
+double s21_mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
   double res = 0;
 
   // Burroughs reference
@@ -49,4 +49,38 @@ double mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
   }
 
   return res;
+}
+
+matrix_t *s21_create_minor(int excluded_row, int excluded_column, matrix_t *A) {
+  if (A == NULL) {
+    return NULL;
+  }
+
+  matrix_t *minor = malloc(sizeof(matrix_t));
+  if (minor != NULL) {
+    if (s21_create_matrix(A->rows - 1, A->columns - 1, minor) == 0) {
+      for (int i = 0, minor_row = 0; i < A->rows; i++) {
+        if (i == excluded_row) {
+          continue;
+        }
+        for (int j = 0, minor_column = 0; j < A->columns; j++) {
+          if (j == excluded_column) {
+            continue;
+          }
+          minor->matrix[minor_row][minor_column] = A->matrix[i][j];
+          minor_column++;
+        }
+        minor_row++;
+      }
+    }
+  }
+
+  return minor;
+}
+
+int s21_is_matrix_square(matrix_t *A) {
+  if (A == NULL) {
+    return 0;
+  }
+  return A->rows == A->columns ? 1 : 0;
 }
