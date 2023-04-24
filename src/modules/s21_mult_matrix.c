@@ -11,8 +11,8 @@ int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
     if (A->columns != B->rows) {
       error_code = CALCULATION_ERROR;
     } else {
-      for (int i = 0; i < A->rows && error_code == OK; i++) {
-        for (int j = 0; j < A->columns && error_code == OK; j++) {
+      for (int i = 0; i < result->rows && error_code == OK; i++) {
+        for (int j = 0; j < result->columns && error_code == OK; j++) {
           result->matrix[i][j] = s21_mult_matrix_res(i, j, A, B);
           if (!isfinite(result->matrix[i][j])) {
             error_code = CALCULATION_ERROR;
