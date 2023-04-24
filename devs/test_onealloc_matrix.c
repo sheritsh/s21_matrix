@@ -8,8 +8,9 @@ void initialize_matrix(double **A);
 void print_matrix(double **A);
 
 int main(void) {
-  double **A = (double **)malloc(rows * sizeof(double *) +
-                                 rows * columns * sizeof(double));
+  printf("Size of double %ld\n", sizeof(double));
+  printf("Size of double* %ld\n", sizeof(double *));
+  double **A = (double **)calloc(rows + rows*columns, sizeof(double)); // 
   double *start = (double *)(A + rows);
 
   for (int i = 0; i < columns; i++) {

@@ -1,6 +1,6 @@
 TARGET = s21_matrix.a
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c11
+CFLAGS = -Wall -Werror -Wextra -std=c11 -g
 OS = $(shell uname)
 MODULES = $(wildcard modules/*.c)
 OBJECTS = $(patsubst %.c, %.o, $(MODULES))
@@ -54,10 +54,10 @@ format_style:
 
 
 valgrind_check: $(TARGET)
-	CK_FORK=no valgrind --vgdb=no --leak-check=full\
---show-leak-kinds=all --track-origins=yes -v --verbose -q --quiet -s ./testing_exe
+	CK_FORK=no valgrind --vgdb=no --leak-check=full \
+	--show-leak-kinds=all --track-origins=yes --log-file="vglog" -v --verbose -q --quiet -s ./testing_exe
 
 clean:
 	rm -rf objects *.a testing_exe
 
-.PHONY: all build rebuild clean test gcov_report style_check valgrind_check
+.PHONY: all build rebuild clean test gcov_report style_check valgrind_check 

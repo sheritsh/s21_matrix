@@ -41,7 +41,12 @@ int s21_is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
 }
 
 double s21_mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
+  if (A == NULL || B == NULL) {
+    return 0;
+  } 
+
   double res = 0;
+
 
   // Burroughs reference
   for (int k = 0; k < B->rows; k++) {
@@ -56,7 +61,7 @@ matrix_t *s21_create_minor(int excluded_row, int excluded_column, matrix_t *A) {
     return NULL;
   }
 
-  matrix_t *minor = malloc(sizeof(matrix_t));
+  matrix_t *minor = calloc(1, sizeof(matrix_t));
   if (minor != NULL) {
     if (s21_create_matrix(A->rows - 1, A->columns - 1, minor) == 0) {
       for (int i = 0, minor_row = 0; i < A->rows; i++) {

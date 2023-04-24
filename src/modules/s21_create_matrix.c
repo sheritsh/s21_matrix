@@ -13,8 +13,7 @@ int s21_create_matrix(int rows, int columns, matrix_t *result) {
   } else {
     result->rows = rows;
     result->columns = columns;
-    result->matrix = (double **)malloc(rows * sizeof(double *) +
-                                       rows * columns * sizeof(double));
+    result->matrix = (double **)calloc(rows + rows*columns, sizeof(double));
     if (result->matrix == NULL) {
       matrix_status = INCORRECT_MATRIX;
     } else {
