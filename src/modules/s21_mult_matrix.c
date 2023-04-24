@@ -1,7 +1,7 @@
 #include "../s21_matrix.h"
 
 int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
-  if (s21_validate_matrix(2, A, B)) {
+  if (s21_validate_matrix(2, A, B) || result == NULL) {
     return INCORRECT_MATRIX;
   }
 
