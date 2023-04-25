@@ -18,15 +18,15 @@ build: $(TARGET)
 rebuild: clean $(TARGET)
 
 $(TARGET): $(OBJECTS)
-	ar rcs $(TARGET) $(wildcard objects/*.o)
+	@ar rcs $(TARGET) $(wildcard objects/*.o)
 
 %.o: %.c
-	mkdir -p objects
-	$(CC) -c $(CFLAGS) $< $(LDLIBS) -o $(patsubst modules%, objects%, $@)
+	@mkdir -p objects
+	@$(CC) -c $(CFLAGS) $< $(LDLIBS) -o $(patsubst modules%, objects%, $@)
 
 test: $(TARGET)
-	$(CC) $(CFLAGS) $(wildcard tests/*.c) $(LDLIBS) -L. $(TARGET) -o testing_exe
-	./testing_exe
+	@$(CC) $(CFLAGS) $(wildcard tests/*.c) $(LDLIBS) -L. $(TARGET) -o testing_exe
+	@./testing_exe
 
 gcov_report:
 
@@ -58,6 +58,6 @@ valgrind_check: $(TARGET)
 	--show-leak-kinds=all --track-origins=yes --log-file="vglog" -v --verbose -q --quiet -s ./testing_exe
 
 clean:
-	rm -rf objects *.a testing_exe
+	rm -rf objects *.a testing_exe *.txt *.dSYM *.log tests/*.log
 
-.PHONY: all build rebuild clean test gcov_report style_check valgrind_check 
+.PHONY: all build rebuild clean test gcov_report style_check valgrind_check

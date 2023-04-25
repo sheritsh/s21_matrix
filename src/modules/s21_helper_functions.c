@@ -43,10 +43,9 @@ int s21_is_matrix_same_size(int matrix_amount, matrix_t *A, ...) {
 double s21_mult_matrix_res(int i, int j, matrix_t *A, matrix_t *B) {
   if (A == NULL || B == NULL) {
     return 0;
-  } 
+  }
 
   double res = 0;
-
 
   // Burroughs reference
   for (int k = 0; k < B->rows; k++) {
@@ -88,4 +87,17 @@ int s21_is_matrix_square(matrix_t *A) {
     return 0;
   }
   return A->rows == A->columns ? 1 : 0;
+}
+
+void s21_initialize_matrix(matrix_t *A, double start_value,
+                           double iteration_step) {
+  if (A != NULL && A->matrix != NULL) {
+    double value = start_value;
+    for (int i = 0; i < A->rows; i++) {
+      for (int j = 0; j < A->columns; j++) {
+        A->matrix[i][j] = value;
+        value += iteration_step;
+      }
+    }
+  }
 }

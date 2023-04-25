@@ -54,4 +54,14 @@ matrix_t* s21_create_minor(int excluded_row, int excluded_column, matrix_t* A);
  */
 int s21_is_matrix_square(matrix_t* A);
 
+/**
+ * @brief The function initializes the entire matrix with values
+ * ​​​​from the given one and each time increasing by an iteration step
+ * @param A pointer to the matrix to be initialized
+ * @param start_value first value to initialize
+ * @param iteration_step iteration step
+ */
+void s21_initialize_matrix(matrix_t* A, double start_value,
+                           double iteration_step);
+
 #endif  // S21_HELPER_FUNCTIONS
