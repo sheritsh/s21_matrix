@@ -15,7 +15,10 @@ The russian version of the task can be found in the repository.
 
 ## Introduction
 
-This project was carried out according to the curriculum of [School 21](https://21-school.ru). In this project, I implemented the matrix allocation in one memory area for work efficiency. All functions are covered by unit tests and documented.
+This project was carried out according to the curriculum of [School 21](https://21-school.ru).
+In this project, I implemented the matrix allocation in one memory area for work efficiency.
+![matrix_alloc](misc/eng/images/matrix_alloc.png)
+All functions are covered by unit tests and documented.
 
 ## Technical specifications
 
