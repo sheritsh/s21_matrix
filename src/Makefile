@@ -57,9 +57,9 @@ format_style:
 	@rm ./.clang-format
 
 
-valgrind_check: $(TARGET)
+valgrind_check: test
 	@CK_FORK=no valgrind --vgdb=no --leak-check=full \
-	--show-leak-kinds=all --track-origins=yes --log-file="vglog" -v --verbose -q --quiet -s ./testing_exe
+	--show-leak-kinds=all --track-origins=yes --log-file="valgrind.log" -v --verbose -q --quiet -s tests/$(TEST_TARGET)
 
 clean:
 	@echo "Deleting unnecessary files..."
