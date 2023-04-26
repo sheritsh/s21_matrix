@@ -625,6 +625,176 @@ START_TEST(s21_transpose_5) {
 }
 END_TEST
 
+START_TEST(s21_calc_complements_1) {
+  // failure with INCORRECT_MATRIX
+  matrix_t A = {};
+  s21_create_matrix(3, 3, &A);
+  ck_assert_int_eq(s21_calc_complements(&A, NULL), INCORRECT_MATRIX);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_calc_complements_2) {
+  // failure with vector matrix (rows or cols == 1)
+  matrix_t A = {};
+  matrix_t result = {};
+  s21_create_matrix(1, 3, &A);
+  s21_initialize_matrix(&A, 1, 3);
+  ck_assert_int_eq(s21_calc_complements(&A, &result), CALCULATION_ERROR);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_calc_complements_3) {
+  // success with task reference values
+  matrix_t A = {};
+  matrix_t result = {};
+  matrix_t eq_matrix = {};
+  s21_create_matrix(3, 3, &A);
+  s21_create_matrix(3, 3, &eq_matrix);
+  A.matrix[0][0] = 1, A.matrix[0][1] = 2, A.matrix[0][2] = 3;
+  A.matrix[1][0] = 0, A.matrix[1][1] = 4, A.matrix[1][2] = 2;
+  A.matrix[2][0] = 5, A.matrix[2][1] = 2, A.matrix[2][2] = 1;
+  ck_assert_int_eq(s21_calc_complements(&A, &result), OK);
+  eq_matrix.matrix[0][0] = 0, eq_matrix.matrix[0][1] = 10,
+  eq_matrix.matrix[0][2] = -20;
+  eq_matrix.matrix[1][0] = 4, eq_matrix.matrix[1][1] = -14,
+  eq_matrix.matrix[1][2] = 8;
+  eq_matrix.matrix[2][0] = -8, eq_matrix.matrix[2][1] = -2,
+  eq_matrix.matrix[2][2] = 4;
+  ck_assert_int_eq(s21_eq_matrix(&result, &eq_matrix), SUCCESS);
+  s21_remove_matrix(&A);
+  s21_remove_matrix(&result);
+  s21_remove_matrix(&eq_matrix);
+}
+END_TEST
+
+START_TEST(s21_determinant_1) {
+  // failure with INCORRECT_MATRIX
+  matrix_t A = {};
+  double det = 0;
+  ck_assert_int_eq(s21_determinant(&A, &det), INCORRECT_MATRIX);
+}
+END_TEST
+
+START_TEST(s21_determinant_2) {
+  // failure with non-square matrix
+  matrix_t A = {};
+  double det = 0;
+  s21_create_matrix(3, 2, &A);
+  s21_initialize_matrix(&A, 1, 1);
+  ck_assert_int_eq(s21_determinant(&A, &det), CALCULATION_ERROR);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_determinant_3) {
+  // success with task reference values
+  matrix_t A = {};
+  double det = 0;
+  s21_create_matrix(3, 3, &A);
+  s21_initialize_matrix(&A, 1, 1);
+  ck_assert_int_eq(s21_determinant(&A, &det), OK);
+  ck_assert_double_eq(det, 0);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_determinant_4) {
+  // success with 2x2 matrix
+  matrix_t A = {};
+  double det = 0;
+  s21_create_matrix(2, 2, &A);
+  s21_initialize_matrix(&A, 3, 3);
+  ck_assert_int_eq(s21_determinant(&A, &det), OK);
+  ck_assert_double_eq(det, -18);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_determinant_5) {
+  // success with 1x1 matrix
+  matrix_t A = {};
+  double det = 0;
+  s21_create_matrix(1, 1, &A);
+  A.matrix[0][0] = 21;
+  ck_assert_int_eq(s21_determinant(&A, &det), OK);
+  ck_assert_double_eq(det, 21);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_inverse_matrix_1) {
+  // failure with INCORRECT_MATRIX
+  matrix_t A = {};
+  matrix_t result = {};
+  ck_assert_int_eq(s21_inverse_matrix(&A, &result), INCORRECT_MATRIX);
+}
+END_TEST
+
+START_TEST(s21_inverse_matrix_2) {
+  // failure when matrix has determinant equal to zero
+  matrix_t A = {};
+  matrix_t result = {};
+  s21_create_matrix(3, 3, &A);
+  s21_initialize_matrix(&A, 1, 1);
+  ck_assert_int_eq(s21_inverse_matrix(&A, &result), CALCULATION_ERROR);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_inverse_matrix_3) {
+  // failure with non-square matrix
+  matrix_t A = {};
+  matrix_t result = {};
+  s21_create_matrix(5, 3, &A);
+  s21_initialize_matrix(&A, 1, 1);
+  ck_assert_int_eq(s21_inverse_matrix(&A, &result), CALCULATION_ERROR);
+  s21_remove_matrix(&A);
+}
+END_TEST
+
+START_TEST(s21_inverse_matrix_4) {
+  // success matrix 1x1
+  matrix_t A = {};
+  matrix_t result = {};
+  matrix_t eq_matrix = {};
+  s21_create_matrix(1, 1, &A);
+  s21_create_matrix(1, 1, &eq_matrix);
+  A.matrix[0][0] = 21;
+  eq_matrix.matrix[0][0] = 1.0 / 21.0;
+  ck_assert_int_eq(s21_inverse_matrix(&A, &result), OK);
+  ck_assert_int_eq(s21_eq_matrix(&result, &eq_matrix), SUCCESS);
+  s21_remove_matrix(&A);
+  s21_remove_matrix(&result);
+  s21_remove_matrix(&eq_matrix);
+}
+END_TEST
+
+START_TEST(s21_inverse_matrix_5) {
+  // success with task reference values
+  matrix_t A = {};
+  matrix_t result = {};
+  matrix_t eq_matrix = {};
+  s21_create_matrix(3, 3, &A);
+  s21_create_matrix(3, 3, &eq_matrix);
+  A.matrix[0][0] = 2, A.matrix[0][1] = 5, A.matrix[0][2] = 7;
+  A.matrix[1][0] = 6, A.matrix[1][1] = 3, A.matrix[1][2] = 4;
+  A.matrix[2][0] = 5, A.matrix[2][1] = -2, A.matrix[2][2] = -3;
+  eq_matrix.matrix[0][0] = 1, eq_matrix.matrix[0][1] = -1,
+  eq_matrix.matrix[0][2] = 1;
+  eq_matrix.matrix[1][0] = -38, eq_matrix.matrix[1][1] = 41,
+  eq_matrix.matrix[1][2] = -34;
+  eq_matrix.matrix[2][0] = 27, eq_matrix.matrix[2][1] = -29,
+  eq_matrix.matrix[2][2] = 24;
+  ck_assert_int_eq(s21_inverse_matrix(&A, &result), OK);
+  ck_assert_int_eq(s21_eq_matrix(&result, &eq_matrix), SUCCESS);
+  s21_remove_matrix(&A);
+  s21_remove_matrix(&result);
+  s21_remove_matrix(&eq_matrix);
+}
+END_TEST
+
 /*  TEST SUITES */
 
 Suite *s21_create_matrix_suite(void) {
@@ -732,6 +902,43 @@ Suite *s21_transpose_suite(void) {
   return suite;
 }
 
+Suite *s21_calc_complements_suite(void) {
+  Suite *suite = suite_create("s21_calc_complements");
+  TCase *tc_core = tcase_create("core_of_calc_complements");
+  tcase_add_test(tc_core, s21_calc_complements_1);
+  tcase_add_test(tc_core, s21_calc_complements_2);
+  tcase_add_test(tc_core, s21_calc_complements_3);
+  suite_add_tcase(suite, tc_core);
+
+  return suite;
+}
+
+Suite *s21_determinant_suite(void) {
+  Suite *suite = suite_create("s21_determinant");
+  TCase *tc_core = tcase_create("core_of_determinant");
+  tcase_add_test(tc_core, s21_determinant_1);
+  tcase_add_test(tc_core, s21_determinant_2);
+  tcase_add_test(tc_core, s21_determinant_3);
+  tcase_add_test(tc_core, s21_determinant_4);
+  tcase_add_test(tc_core, s21_determinant_5);
+  suite_add_tcase(suite, tc_core);
+
+  return suite;
+}
+
+Suite *s21_inverse_matrix_suite(void) {
+  Suite *suite = suite_create("s21_inverse_matrix");
+  TCase *tc_core = tcase_create("core_of_inverse_matrix");
+  tcase_add_test(tc_core, s21_inverse_matrix_1);
+  tcase_add_test(tc_core, s21_inverse_matrix_2);
+  tcase_add_test(tc_core, s21_inverse_matrix_3);
+  tcase_add_test(tc_core, s21_inverse_matrix_4);
+  tcase_add_test(tc_core, s21_inverse_matrix_5);
+  suite_add_tcase(suite, tc_core);
+
+  return suite;
+}
+
 /*  SUITES EXECUTION SCRIPT */
 
 void s21_suit_execution(Suite *suite, int *failed_count, char *suite_name) {
@@ -763,6 +970,12 @@ int main(void) {
                      "tests/mult_matrix.log");
   s21_suit_execution(s21_transpose_suite(), &failed_count,
                      "tests/transpose.log");
+  s21_suit_execution(s21_calc_complements_suite(), &failed_count,
+                     "tests/calc_complements.log");
+  s21_suit_execution(s21_determinant_suite(), &failed_count,
+                     "tests/determinant.log");
+  s21_suit_execution(s21_inverse_matrix_suite(), &failed_count,
+                     "tests/inverse_matrix.log");
 
   return failed_count == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -164,4 +164,4 @@ int s21_determinant(matrix_t *A, double *result);
  */
 int s21_inverse_matrix(matrix_t *A, matrix_t *result);
 
-#endif  // S21_MATRIX_H
+#endif
