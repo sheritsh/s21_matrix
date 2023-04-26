@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define rows 5
-#define columns 5
+#define rows 6
+#define columns 4
 
 void initialize_matrix(double **A);
 void print_matrix(double **A);
