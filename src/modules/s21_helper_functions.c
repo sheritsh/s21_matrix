@@ -1,13 +1,18 @@
 #include "s21_helper_functions.h"
 
 int s21_validate_matrix(int matrix_amount, matrix_t *A, ...) {
+  if (A == NULL || A->matrix == NULL || A->rows < 1 || A->columns < 1) {
+    return INCORRECT_MATRIX;
+  }
+
   int matrices_status = OK;
 
   va_list matrix_list;
   va_start(matrix_list, A);
   for (int i = 0; i < matrix_amount - 1 && matrices_status == OK; i++) {
     matrix_t *current_matrix = va_arg(matrix_list, matrix_t *);
-    if (current_matrix == NULL || current_matrix->matrix == NULL) {
+    if (current_matrix == NULL || current_matrix->matrix == NULL ||
+        current_matrix->rows < 1 || current_matrix->columns < 1) {
       matrices_status = INCORRECT_MATRIX;
     }
   }
@@ -98,6 +103,17 @@ void s21_initialize_matrix(matrix_t *A, double start_value,
         A->matrix[i][j] = value;
         value += iteration_step;
       }
+    }
+  }
+}
+
+void s21_print_matrix(matrix_t *A) {
+  if (A != NULL && A->matrix != NULL) {
+    for (int i = 0; i < A->rows; i++) {
+      for (int j = 0; j < A->columns; j++) {
+        printf("%f\t", A->matrix[i][j]);
+      }
+      printf("\n");
     }
   }
 }

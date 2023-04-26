@@ -64,4 +64,10 @@ int s21_is_matrix_square(matrix_t* A);
 void s21_initialize_matrix(matrix_t* A, double start_value,
                            double iteration_step);
 
+/**
+ * @brief The function prints the entire matrix to the console
+ * @param A pointer to the matrix
+ */
+void s21_print_matrix(matrix_t* A);
+
 #endif  // S21_HELPER_FUNCTIONS
